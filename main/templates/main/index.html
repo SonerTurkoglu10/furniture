@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aykart Furniture - Modern & Klasik Mobilya</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        :root {
+            --primary-color: #8B4513;
+            --secondary-color: #D4AF37;
+            --accent-color: #4A4A4A;
+            --light-gray: #f8f9fa;
+            --dark-brown: #5D4037;
+        }
+        
+        .service-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: none !important;
+        }
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+        }
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--secondary-color);
+        }
+        .btn-custom-primary {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+        }
+        .btn-custom-primary:hover {
+            background-color: var(--dark-brown);
+            color: var(--secondary-color);
+        }
+        .section-title {
+            color: var(--primary-color);
+            position: relative;
+            padding-bottom: 15px;
+        }
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: var(--secondary-color);
+        }
+        .project-card {
+            overflow: hidden;
+            border-radius: 15px;
+        }
+        .project-card img {
+            transition: transform 0.5s ease;
+        }
+        .project-card:hover img {
+            transform: scale(1.05);
+        }
+        .custom-nav {
+            background-color: var(--primary-color) !important;
+        }
+        .hero-section {
+            background: linear-gradient(135deg, var(--primary-color), var(--dark-brown));
+        }
+    </style>
+</head>
+<body class="bg-light">
+
+<nav class="navbar navbar-expand-lg custom-nav navbar-dark sticky-top">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="#">
+            <i class="bi bi-house-heart me-2"></i>Aykart Furniture
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#koleksiyonlar">Koleksiyonlar</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#showroom">Showroom</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#hakkimizda">Hakkımızda</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#iletisim">İletişim</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Hero Section: full-width slider with persistent overlay text -->
+<div class="hero-wrapper position-relative">
+    <div id="heroCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            {% for slide in hero_slides %}
+                <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active"{% endif %} aria-label="Slide {{ forloop.counter }}"></button>
+            {% endfor %}
+        </div>
+        <div class="carousel-inner">
+            {% for slide in hero_slides %}
+                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                    <img src="{{ slide.image.url }}" class="d-block w-100 hero-slide-img" alt="Showroom slide">
+                </div>
+            {% empty %}
+                <div class="carousel-item active">
+                    <img src="https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?w=1200&q=80" class="d-block w-100 hero-slide-img" alt="Default slide">
+                </div>
+            {% endfor %}
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Önceki</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Sonraki</span>
+        </button>
+    </div>
+
+    <!-- Overlay content: keep original hero text visible above slides -->
+    <div class="hero-overlay position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 text-white">
+                    <h1 class="display-4 fw-bold mb-4">Modern & Klasik Mobilya Koleksiyonları</h1>
+                    <p class="lead mb-4">20 yıllık tasarım tecrübemizle, evinize özel mobilya koleksiyonları sunuyoruz.</p>
+                    <div class="d-grid gap-3 d-sm-flex">
+                        <a href="#koleksiyonlar" class="btn btn-custom-primary btn-lg px-4">Koleksiyonları Keşfet</a>
+                        <a href="#showroom" class="btn btn-outline-light btn-lg px-4" style="border-color: var(--secondary-color); color: var(--secondary-color);">Showroom'u Ziyaret Et</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Custom Styles for Carousel -->
+<style>
+    /* Full-bleed hero wrapper */
+    .hero-wrapper {
+        position: relative;
+        width: 100%;
+        overflow: hidden;
+        background: linear-gradient(135deg, var(--primary-color), var(--dark-brown));
+    }
+
+    /* Slide image sizing - cover the hero area */
+    .hero-slide-img {
+        width: 100%;
+        height: 80vh; /* large, full-ish hero */
+        min-height: 420px;
+        object-fit: cover;
+    }
+
+    /* Overlay with hero text sits above slides */
+    .hero-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 5;
+        display: flex;
+        align-items: center;
+        pointer-events: none; /* allow clicks to pass through except where enabled */
+    }
+    /* Make interactive elements inside overlay clickable */
+    .hero-overlay .container {
+        pointer-events: auto;
+    }
+
+    /* Keep carousel controls and indicators above slides but under overlay */
+    #heroCarousel .carousel-indicators,
+    #heroCarousel .carousel-control-prev,
+    #heroCarousel .carousel-control-next {
+        z-index: 4;
+    }
+
+    .carousel-indicators button {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        margin: 0 4px;
+        background-color: rgba(255,255,255,0.8);
+        opacity: 0.7;
+    }
+    .carousel-indicators button.active {
+        background-color: var(--secondary-color);
+        opacity: 1;
+    }
+
+    .carousel-control-prev,
+    .carousel-control-next {
+        opacity: 0.8;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 992px) {
+        .hero-slide-img { height: 60vh; min-height: 320px; }
+        .hero-overlay .container { padding-left: 1rem; padding-right: 1rem; }
+        .hero-overlay h1 { font-size: 2rem; }
+    }
+
+    @media (max-width: 576px) {
+        .hero-slide-img { height: 48vh; }
+        .hero-overlay { align-items: flex-start; padding-top: 2rem; }
+        .hero-overlay h1 { font-size: 1.6rem; }
+    }
+</style>
+
+<!-- Koleksiyonlar Section -->
+<section id="koleksiyonlar" class="py-5">
+    <div class="container">
+        <h2 class="section-title text-center mb-5">Koleksiyonlarımız</h2>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm service-card">
+                    <div class="card-body text-center p-4">
+                        <i class="bi bi-house-heart feature-icon mb-3"></i>
+                        <h4>Oturma Odası</h4>
+                        <p>Modern ve klasik tasarımlı koltuk takımları, berjerler, orta sehpalar ve TV üniteleri ile komple oturma odası çözümleri.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm service-card">
+                    <div class="card-body text-center p-4">
+                        <i class="bi bi-cup-hot feature-icon mb-3"></i>
+                        <h4>Yemek Odası</h4>
+                        <p>Şık yemek masası takımları, konsol ve vitrinler. Özel ahşap işçiliği ile tasarlanan benzersiz parçalar.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card h-100 border-0 shadow-sm service-card">
+                    <div class="card-body text-center p-4">
+                        <i class="bi bi-moon-stars feature-icon mb-3"></i>
+                        <h4>Yatak Odası</h4>
+                        <p>Lüks yatak odası takımları, şifonyer ve komodinler. Ergonomik tasarım ve maksimum konfor.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Neden Biz Section -->
+<section id="hakkimizda" class="py-5" style="background-color: #FAF6F1;">
+    <div class="container">
+        <h2 class="section-title text-center mb-5">Aykart Furniture Ayrıcalıkları</h2>
+        <div class="row g-4">
+            <div class="col-md-3">
+                <div class="text-center p-4 bg-white rounded-3 shadow-sm h-100" style="border-bottom: 3px solid var(--secondary-color);">
+                    <i class="bi bi-award feature-icon mb-3"></i>
+                    <h5 style="color: var(--primary-color);">Özgün Tasarım</h5>
+                    <p class="mb-0">20+ yıllık tasarım tecrübesiyle, size özel mobilya koleksiyonları</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="text-center p-4 bg-white rounded-3 shadow-sm h-100" style="border-bottom: 3px solid var(--secondary-color);">
+                    <i class="bi bi-gem feature-icon mb-3"></i>
+                    <h5 style="color: var(--primary-color);">Premium Malzeme</h5>
+                    <p class="mb-0">İtalyan kumaş, özel işlenmiş ahşap ve altın kaplama detaylar</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="text-center p-4 bg-white rounded-3 shadow-sm h-100" style="border-bottom: 3px solid var(--secondary-color);">
+                    <i class="bi bi-shield-check feature-icon mb-3"></i>
+                    <h5 style="color: var(--primary-color);">5 Yıl Garanti</h5>
+                    <p class="mb-0">Tüm mobilyalarımızda 5 yıl garanti ve ömür boyu bakım desteği</p>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="text-center p-4 bg-white rounded-3 shadow-sm h-100" style="border-bottom: 3px solid var(--secondary-color);">
+                    <i class="bi bi-house-heart feature-icon mb-3"></i>
+                    <h5 style="color: var(--primary-color);">Özel Tasarım</h5>
+                    <p class="mb-0">Evinize özel ölçü ve tasarımlarla benzersiz mobilya çözümleri</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Showroom Section -->
+<section id="showroom" class="py-5 bg-light">
+    <div class="container">
+        <h2 class="section-title text-center mb-5">Showroom'dan Seçmeler</h2>
+
+        <!-- Oturma Odası Slider -->
+        {% if living_room_images %}
+        <div class="mb-5">
+            <h3 class="text-center mb-4" style="color: var(--primary-color); font-size: 1.8rem; font-weight: 600;">{{ living_room_title }}</h3>
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div id="livingRoomCarousel" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-indicators">
+                            {% for image in living_room_images %}
+                                <button type="button" data-bs-target="#livingRoomCarousel" data-bs-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active"{% endif %} aria-label="Slide {{ forloop.counter }}"></button>
+                            {% endfor %}
+                        </div>
+                        <div class="carousel-inner">
+                            {% for image in living_room_images %}
+                                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                    <img src="{{ image.image.url }}" 
+                                         class="d-block w-100 showcase-slide-img" 
+                                         alt="{{ living_room_title }} - {{ forloop.counter }}">
+                                    <div class="carousel-caption d-md-block showcase-caption">
+                                        <h5>{{ living_room_title }}</h5>
+                                        <p>Resim {{ forloop.counter }} / {{ living_room_images.count }}</p>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#livingRoomCarousel" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Önceki</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#livingRoomCarousel" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Sonraki</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Yemek Odası Slider -->
+        {% if dining_room_images %}
+        <div class="mb-5">
+            <h3 class="text-center mb-4" style="color: var(--primary-color); font-size: 1.8rem; font-weight: 600;">{{ dining_room_title }}</h3>
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div id="diningRoomCarousel" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-indicators">
+                            {% for image in dining_room_images %}
+                                <button type="button" data-bs-target="#diningRoomCarousel" data-bs-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active"{% endif %} aria-label="Slide {{ forloop.counter }}"></button>
+                            {% endfor %}
+                        </div>
+                        <div class="carousel-inner">
+                            {% for image in dining_room_images %}
+                                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                    <img src="{{ image.image.url }}" 
+                                         class="d-block w-100 showcase-slide-img" 
+                                         alt="{{ dining_room_title }} - {{ forloop.counter }}">
+                                    <div class="carousel-caption d-md-block showcase-caption">
+                                        <h5>{{ dining_room_title }}</h5>
+                                        <p>Resim {{ forloop.counter }} / {{ dining_room_images.count }}</p>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#diningRoomCarousel" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Önceki</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#diningRoomCarousel" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Sonraki</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Yatak Odası Slider -->
+        {% if bedroom_images %}
+        <div class="mb-5">
+            <h3 class="text-center mb-4" style="color: var(--primary-color); font-size: 1.8rem; font-weight: 600;">{{ bedroom_title }}</h3>
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div id="bedroomCarousel" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-indicators">
+                            {% for image in bedroom_images %}
+                                <button type="button" data-bs-target="#bedroomCarousel" data-bs-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active"{% endif %} aria-label="Slide {{ forloop.counter }}"></button>
+                            {% endfor %}
+                        </div>
+                        <div class="carousel-inner">
+                            {% for image in bedroom_images %}
+                                <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                                    <img src="{{ image.image.url }}" 
+                                         class="d-block w-100 showcase-slide-img" 
+                                         alt="{{ bedroom_title }} - {{ forloop.counter }}">
+                                    <div class="carousel-caption d-md-block showcase-caption">
+                                        <h5>{{ bedroom_title }}</h5>
+                                        <p>Resim {{ forloop.counter }} / {{ bedroom_images.count }}</p>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#bedroomCarousel" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Önceki</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#bedroomCarousel" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Sonraki</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Showroom Slider Stilleri -->
+<style>
+    .showcase-slide-img {
+        width: 100%;
+        height: 500px;
+        object-fit: cover;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    .showcase-caption {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.8) 100%);
+        padding: 3rem 2rem 2rem;
+        text-align: center;
+    }
+
+    .showcase-caption h5 {
+        font-size: 2rem;
+        font-weight: bold;
+        color: white;
+        margin-bottom: 0.5rem;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        letter-spacing: 1px;
+    }
+
+    .showcase-caption p {
+        color: var(--secondary-color);
+        font-size: 1rem;
+        margin: 0;
+    }
+
+    #livingRoomCarousel .carousel-indicators button,
+    #diningRoomCarousel .carousel-indicators button,
+    #bedroomCarousel .carousel-indicators button {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        margin: 0 6px;
+        background-color: rgba(139, 69, 19, 0.5);
+        opacity: 0.7;
+        border: 2px solid var(--secondary-color);
+    }
+
+    #livingRoomCarousel .carousel-indicators button.active,
+    #diningRoomCarousel .carousel-indicators button.active,
+    #bedroomCarousel .carousel-indicators button.active {
+        background-color: var(--secondary-color);
+        opacity: 1;
+    }
+
+    #livingRoomCarousel .carousel-control-prev,
+    #livingRoomCarousel .carousel-control-next,
+    #diningRoomCarousel .carousel-control-prev,
+    #diningRoomCarousel .carousel-control-next,
+    #bedroomCarousel .carousel-control-prev,
+    #bedroomCarousel .carousel-control-next {
+        opacity: 0.8;
+        width: 50px;
+        height: 50px;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    #livingRoomCarousel .carousel-control-prev,
+    #diningRoomCarousel .carousel-control-prev,
+    #bedroomCarousel .carousel-control-prev {
+        left: -60px;
+    }
+
+    #livingRoomCarousel .carousel-control-next,
+    #diningRoomCarousel .carousel-control-next,
+    #bedroomCarousel .carousel-control-next {
+        right: -60px;
+    }
+
+    #livingRoomCarousel .carousel-control-prev:hover,
+    #livingRoomCarousel .carousel-control-next:hover,
+    #diningRoomCarousel .carousel-control-prev:hover,
+    #diningRoomCarousel .carousel-control-next:hover,
+    #bedroomCarousel .carousel-control-prev:hover,
+    #bedroomCarousel .carousel-control-next:hover {
+        opacity: 1;
+        transform: translateY(-50%) scale(1.1);
+    }
+
+    @media (max-width: 768px) {
+        .showcase-slide-img {
+            height: 350px;
+        }
+
+        .showcase-caption h5 {
+            font-size: 1.5rem;
+        }
+
+        .showcase-caption p {
+            font-size: 0.85rem;
+        }
+
+        #livingRoomCarousel .carousel-control-prev,
+        #livingRoomCarousel .carousel-control-next,
+        #diningRoomCarousel .carousel-control-prev,
+        #diningRoomCarousel .carousel-control-next,
+        #bedroomCarousel .carousel-control-prev,
+        #bedroomCarousel .carousel-control-next {
+            width: 40px;
+            height: 40px;
+        }
+
+        #livingRoomCarousel .carousel-control-prev,
+        #diningRoomCarousel .carousel-control-prev,
+        #bedroomCarousel .carousel-control-prev {
+            left: 0;
+        }
+
+        #livingRoomCarousel .carousel-control-next,
+        #diningRoomCarousel .carousel-control-next,
+        #bedroomCarousel .carousel-control-next {
+            right: 0;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .showcase-slide-img {
+            height: 280px;
+        }
+
+        .showcase-caption h5 {
+            font-size: 1.2rem;
+            padding-top: 1rem;
+        }
+
+        .showcase-caption {
+            padding: 2rem 1rem 1rem;
+        }
+    }
+</style>
+
+<!-- İletişim Section -->
+<section id="iletisim" class="py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card border-0 shadow">
+                    <div class="card-body p-5">
+                        <h2 class="text-center mb-4">Showroom Randevusu Alın</h2>
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="alert alert-{{ message.tags }}" role="alert">{{ message }}</div>
+                            {% endfor %}
+                        {% endif %}
+                        <form method="post" action="{% url 'appointment_submit' %}" novalidate>
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <input type="text" name="name" class="form-control" placeholder="Adınız Soyadınız" required>
+                            </div>
+                            <div class="mb-3">
+                                <input type="tel" name="phone" class="form-control" placeholder="Telefon Numaranız" required>
+                            </div>
+                            <div class="mb-3">
+                                <input type="email" name="email" class="form-control" placeholder="E-posta Adresiniz" required>
+                            </div>
+                            <div class="mb-3">
+                                <textarea name="message" class="form-control" rows="4" placeholder="İlgilendiğiniz mobilya koleksiyonları ve notlarınız..."></textarea>
+                            </div>
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-custom-primary btn-lg">Randevu Al</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="bg-dark text-white py-4">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 mb-4 mb-md-0">
+                <h5>Aykart Furniture</h5>
+                <p class="mb-0">Modern ve klasik mobilya koleksiyonları ile yaşam alanlarınıza değer katıyoruz.</p>
+            </div>
+            <div class="col-md-4 mb-4 mb-md-0">
+                <h5>İletişim</h5>
+                <p class="mb-0">
+                    <i class="bi bi-telephone me-2"></i>0532 123 45 67<br>
+                    <i class="bi bi-envelope me-2"></i>info@aykartfurniture.com<br>
+                    <i class="bi bi-geo-alt me-2"></i>Lüks Showroom, İstanbul
+                </p>
+            </div>
+            <div class="col-md-4">
+                <h5>Showroom</h5>
+                <p class="mb-0">
+                    Pazartesi - Cumartesi: 10:00 - 20:00<br>
+                    Pazar: Randevu ile
+                </p>
+            </div>
+        </div>
+        <hr class="my-4">
+        <div class="text-center">
+            <small>© 2025 Aykart Furniture | Tüm hakları saklıdır.</small>
+        </div>
+    </div>
+</footer>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Form Validation -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const appointmentForm = document.querySelector("form[action='{% url 'appointment_submit' %}']");
+    if (appointmentForm) {
+        appointmentForm.addEventListener('submit', function(e) {
+            let isValid = true;
+            const name = this.querySelector('input[name="name"]');
+            const phone = this.querySelector('input[name="phone"]');
+            const email = this.querySelector('input[name="email"]');
+
+            // Name validation
+            if (!name.value.trim() || name.value.trim().split(/\s+/).length < 2) {
+                showError(name, 'Lütfen ad ve soyadınızı giriniz');
+                isValid = false;
+            } else {
+                clearError(name);
+            }
+
+            // Phone validation
+            const phoneRegex = /^0?5[0-9]{9}$/;
+            if (!phoneRegex.test(phone.value.replace(/\D/g, ''))) {
+                showError(phone, 'Lütfen geçerli bir telefon numarası giriniz (5XX XXX XX XX formatında)');
+                isValid = false;
+            } else {
+                clearError(phone);
+            }
+
+            // Email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email.value.trim())) {
+                showError(email, 'Lütfen geçerli bir e-posta adresi giriniz');
+                isValid = false;
+            } else {
+                clearError(email);
+            }
+
+            if (!isValid) {
+                e.preventDefault();
+            }
+        });
+
+        // Phone number formatting
+        const phoneInput = appointmentForm.querySelector('input[name="phone"]');
+        phoneInput.addEventListener('input', function(e) {
+            let number = this.value.replace(/\D/g, '');
+            if (number.length > 10) number = number.substr(0, 10);
+            let formatted = '';
+            for (let i = 0; i < number.length; i++) {
+                if (i === 3 || i === 6 || i === 8) formatted += ' ';
+                formatted += number[i];
+            }
+            this.value = formatted;
+        });
+    }
+
+    function showError(element, message) {
+        clearError(element);
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'invalid-feedback d-block';
+        errorDiv.textContent = message;
+        element.classList.add('is-invalid');
+        element.parentNode.appendChild(errorDiv);
+    }
+
+    function clearError(element) {
+        const errorDiv = element.parentNode.querySelector('.invalid-feedback');
+        if (errorDiv) {
+            errorDiv.remove();
+        }
+        element.classList.remove('is-invalid');
+    }
+});
+</script>
+</body>
+</html>
