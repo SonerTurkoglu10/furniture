@@ -110,7 +110,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="#koleksiyonlar">Koleksiyonlar</a>
+                    <a class="nav-link" href="#showroom">Koleksiyonlar</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#showroom">Showroom</a>
@@ -163,7 +163,7 @@
                     <h1 class="display-4 fw-bold mb-4">Modern & Klasik Mobilya Koleksiyonları</h1>
                     <p class="lead mb-4">20 yıllık tasarım tecrübemizle, evinize özel mobilya koleksiyonları sunuyoruz.</p>
                     <div class="d-grid gap-3 d-sm-flex">
-                        <a href="#koleksiyonlar" class="btn btn-custom-primary btn-lg px-4">Koleksiyonları Keşfet</a>
+                        <a href="#showroom" class="btn btn-custom-primary btn-lg px-4">Koleksiyonları Keşfet</a>
                         <a href="#showroom" class="btn btn-outline-light btn-lg px-4" style="border-color: var(--secondary-color); color: var(--secondary-color);">Showroom'u Ziyaret Et</a>
                     </div>
                 </div>
@@ -251,9 +251,6 @@
     <div class="container">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h2 class="section-title mb-0">Koleksiyonlarımız</h2>
-            <button class="btn btn-outline-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#koleksiyonlarContent" aria-expanded="true" aria-controls="koleksiyonlarContent" id="koleksiyonToggle">
-                Göster/Kapat
-            </button>
         </div>
         <div class="collapse show" id="koleksiyonlarContent">
             <div class="row g-4">
@@ -740,23 +737,6 @@ document.addEventListener('DOMContentLoaded', function() {
         element.classList.remove('is-invalid');
     }
 
-    const koleksiyonToggle = document.getElementById('koleksiyonToggle');
-    const koleksiyonCollapse = document.getElementById('koleksiyonlarContent');
-    const koleksiyonLinks = document.querySelectorAll('a[href="#koleksiyonlar"]');
-
-    if (koleksiyonLinks.length && koleksiyonCollapse) {
-        koleksiyonLinks.forEach(link => {
-            link.addEventListener('click', function(event) {
-                const collapseInstance = bootstrap.Collapse.getOrCreateInstance(koleksiyonCollapse, { toggle: false });
-                if (!koleksiyonCollapse.classList.contains('show')) {
-                    collapseInstance.show();
-                }
-                setTimeout(() => {
-                    koleksiyonCollapse.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }, 100);
-            });
-        });
-    }
 });
 </script>
 </body>
