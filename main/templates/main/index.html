@@ -249,32 +249,39 @@
 <!-- Koleksiyonlar Section -->
 <section id="koleksiyonlar" class="py-5">
     <div class="container">
-        <h2 class="section-title text-center mb-5">Koleksiyonlarımız</h2>
-        <div class="row g-4">
-            <div class="col-md-4">
-                <div class="card h-100 border-0 shadow-sm service-card">
-                    <div class="card-body text-center p-4">
-                        <i class="bi bi-house-heart feature-icon mb-3"></i>
-                        <h4>Oturma Odası</h4>
-                        <p>Modern ve klasik tasarımlı koltuk takımları, berjerler, orta sehpalar ve TV üniteleri ile komple oturma odası çözümleri.</p>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="section-title mb-0">Koleksiyonlarımız</h2>
+            <button class="btn btn-outline-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#koleksiyonlarContent" aria-expanded="true" aria-controls="koleksiyonlarContent" id="koleksiyonToggle">
+                Göster/Kapat
+            </button>
+        </div>
+        <div class="collapse show" id="koleksiyonlarContent">
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card h-100 border-0 shadow-sm service-card">
+                        <div class="card-body text-center p-4">
+                            <i class="bi bi-house-heart feature-icon mb-3"></i>
+                            <h4>Oturma Odası</h4>
+                            <p>Modern ve klasik tasarımlı koltuk takımları, berjerler, orta sehpalar ve TV üniteleri ile komple oturma odası çözümleri.</p>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card h-100 border-0 shadow-sm service-card">
-                    <div class="card-body text-center p-4">
-                        <i class="bi bi-cup-hot feature-icon mb-3"></i>
-                        <h4>Yemek Odası</h4>
-                        <p>Şık yemek masası takımları, konsol ve vitrinler. Özel ahşap işçiliği ile tasarlanan benzersiz parçalar.</p>
+                <div class="col-md-4">
+                    <div class="card h-100 border-0 shadow-sm service-card">
+                        <div class="card-body text-center p-4">
+                            <i class="bi bi-cup-hot feature-icon mb-3"></i>
+                            <h4>Yemek Odası</h4>
+                            <p>Şık yemek masası takımları, konsol ve vitrinler. Özel ahşap işçiliği ile tasarlanan benzersiz parçalar.</p>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-4">
-                <div class="card h-100 border-0 shadow-sm service-card">
-                    <div class="card-body text-center p-4">
-                        <i class="bi bi-moon-stars feature-icon mb-3"></i>
-                        <h4>Yatak Odası</h4>
-                        <p>Lüks yatak odası takımları, şifonyer ve komodinler. Ergonomik tasarım ve maksimum konfor.</p>
+                <div class="col-md-4">
+                    <div class="card h-100 border-0 shadow-sm service-card">
+                        <div class="card-body text-center p-4">
+                            <i class="bi bi-moon-stars feature-icon mb-3"></i>
+                            <h4>Yatak Odası</h4>
+                            <p>Lüks yatak odası takımları, şifonyer ve komodinler. Ergonomik tasarım ve maksimum konfor.</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -731,6 +738,24 @@ document.addEventListener('DOMContentLoaded', function() {
             errorDiv.remove();
         }
         element.classList.remove('is-invalid');
+    }
+
+    const koleksiyonToggle = document.getElementById('koleksiyonToggle');
+    const koleksiyonCollapse = document.getElementById('koleksiyonlarContent');
+    const koleksiyonLinks = document.querySelectorAll('a[href="#koleksiyonlar"]');
+
+    if (koleksiyonLinks.length && koleksiyonCollapse) {
+        koleksiyonLinks.forEach(link => {
+            link.addEventListener('click', function(event) {
+                const collapseInstance = bootstrap.Collapse.getOrCreateInstance(koleksiyonCollapse, { toggle: false });
+                if (!koleksiyonCollapse.classList.contains('show')) {
+                    collapseInstance.show();
+                }
+                setTimeout(() => {
+                    koleksiyonCollapse.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 100);
+            });
+        });
     }
 });
 </script>
